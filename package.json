@@ -1,0 +1,25 @@
+{
+  "name": "recipes-helper",
+  "version": "1.0.0",
+  "description": "recipes helper app prototype",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allicsander/recipes-helper.git"
+  },
+  "author": "allicsander",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/allicsander/recipes-helper/issues"
+  },
+  "homepage": "https://github.com/allicsander/recipes-helper#readme",
+  "devDependencies": {
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {}
+}
