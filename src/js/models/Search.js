@@ -12,7 +12,7 @@ export default class Search{
             const res = await axios(`${proxy}https://api.edamam.com/search?q=${this.query}&app_id=${app_id}&app_key=${app_key}&from=0&to=3&calories=591-722&health=alcohol-free`);
     
             this.recipes = res.data.hits;
-            console.log(this.recipes);
+            //console.log(this.recipes);
         }catch(error){
             console.log(error);
         }
