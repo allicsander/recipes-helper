@@ -1,0 +1,1 @@
+export default 'im sexy text here'
