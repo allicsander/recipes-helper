@@ -35,7 +35,7 @@ export default class Recipe{
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
         const units = [...unitsShort, 'kg', 'g'];
-console.log(this.ingredients);
+
         const newIngredients = this.ingredients.map(el => {
             // 1) Uniform units
             let ingredient = el.text.toLowerCase();
@@ -92,6 +92,16 @@ console.log(this.ingredients);
     }
 
 
+    updateServings (type) {
+        
+        const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
+        
+        this.ingredients.forEach(ing => {
+            ing.count *= (newServings / this.servings);
+        });
+
+        this.servings = newServings;
+    }
 
 
 }
