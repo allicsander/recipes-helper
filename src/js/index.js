@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
 
@@ -55,17 +56,27 @@ elements.searchResultPages.addEventListener('click', e =>{
 // console.log(recipe);
 
 const controlRecipe = async () =>{
-    const id = window.location.hash.replace('#','');
-    console.log(id);
+    const id = encodeURIComponent(window.location.hash.replace('#',''));
+    console.log(id);  
 
     if(id){
 
-     try{
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
+
         state.recipe = new Recipe(id);
+
+     try{
+        
         await state.recipe.getRecipe();
+        state.recipe.parseIngredients();
 
         state.recipe.calcTime();
         state.recipe.calcServings();
+
+        clearLoader();
+        recipeView.renderRecipe(state.recipe); 
+
      }catch(error){
          console.log(error);
      }
