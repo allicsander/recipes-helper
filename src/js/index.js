@@ -1,4 +1,5 @@
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
@@ -15,14 +16,20 @@ const controlSearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchResult);
        
+        try{
+            await state.search.getResults();
+            console.log("yummy yummy");
+           // console.log(state.search.recipes);
+    
+            clearLoader();
+    
+            searchView.renderResults(state.search.recipes);
+        }catch(error){
+            console.log(error);
+            clearLoader();
+        }
+        
 
-        await state.search.getResults();
-        console.log("yummy yummy");
-       // console.log(state.search.recipes);
-
-        clearLoader();
-
-        searchView.renderResults(state.search.recipes);
     }
 };
 
@@ -39,6 +46,38 @@ elements.searchResultPages.addEventListener('click', e =>{
         searchView.renderResults(state.search.recipes, goToPage);
     }
 });
+
+
+
+// const recipe = new Recipe('http%3A%2F%2Fwww.edamam.com%2Fontologies%2Fedamam.owl%23recipe_9b5945e03f05acbf9d69625138385408');
+// recipe.getRecipe();
+
+// console.log(recipe);
+
+const controlRecipe = async () =>{
+    const id = window.location.hash.replace('#','');
+    console.log(id);
+
+    if(id){
+
+     try{
+        state.recipe = new Recipe(id);
+        await state.recipe.getRecipe();
+
+        state.recipe.calcTime();
+        state.recipe.calcServings();
+     }catch(error){
+         console.log(error);
+     }
+        
+    }
+}
+
+
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+
+
 
 
 
