@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import ShoppingList from './models/ShoppingList';
+import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as shoppingListView from './views/shoppingListView';
@@ -93,13 +94,36 @@ const controlShoppingList = () => {
     if(! state.shoppingList){
         state.shoppingList = new ShoppingList();
     }
-console.log(state.recipe.ingredients);
+
     state.recipe.ingredients.forEach( el => {
         const item = state.shoppingList.addItem(el.count, el.unit, el.ingredient);
         shoppingListView.renderItem(item);
     });
 
 }
+
+const controlLikes = () =>{
+    if(!state.likes){
+        state.likes = new Likes();
+    }
+    const currentID = state.recipe.id;
+
+    if(!state.likes.isLiked(currentID)){
+
+        const newLike = state.likes.addLike(
+            currentID,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img
+        );
+
+       
+    }else{
+        state.likes.deleteLike(currentID);
+    }
+
+}
+
 
 
 elements.shopping.addEventListener('click', e => {
@@ -134,6 +158,8 @@ elements.recipe.addEventListener('click', e =>{
     } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
         controlShoppingList();
 
+    } else if (e.target.matches('.recipe__love, .recipe__love *')) {
+        controlLikes();
     }
 
 });
