@@ -7,7 +7,7 @@ export default class ShoppingList {
 
     addItem(count, unit, ingredient){
         const item = {
-            id = uniqid(),
+            id: uniqid(),
             count,
             unit,
             ingredient
