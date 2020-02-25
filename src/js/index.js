@@ -5,6 +5,7 @@ import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as shoppingListView from './views/shoppingListView';
+import * as likesView from './views/likesView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
 
@@ -78,7 +79,7 @@ const controlRecipe = async () =>{
         state.recipe.calcServings();
 
         clearLoader();
-        recipeView.renderRecipe(state.recipe); 
+        recipeView.renderRecipe(state.recipe, state.likes.isLiked(id)); 
 
      }catch(error){
          console.log(error);
@@ -117,12 +118,33 @@ const controlLikes = () =>{
             state.recipe.img
         );
 
+        likesView.toggleLikeBtn(true);
+        likesView.renderLike(newLike);
+
+
        
     }else{
         state.likes.deleteLike(currentID);
+
+        likesView.toggleLikeBtn(false);
+        likesView.deleteLike(currentID);
+
     }
 
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
 }
+
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+    
+    state.likes.readStorage();
+
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+});
+
 
 
 
